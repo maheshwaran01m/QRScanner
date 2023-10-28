@@ -11,7 +11,6 @@
 		9D0F5E642AEC9B150025E05B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F5E632AEC9B150025E05B /* ContentView.swift */; };
 		9D0F5E662AEC9B160025E05B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D0F5E652AEC9B160025E05B /* Assets.xcassets */; };
 		9D0F5E692AEC9B160025E05B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D0F5E682AEC9B160025E05B /* Preview Assets.xcassets */; };
-		9D0F5E702AEC9B450025E05B /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F5E6F2AEC9B450025E05B /* ScannerView.swift */; };
 		9D0F5E722AECA8550025E05B /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F5E712AECA8550025E05B /* CameraView.swift */; };
 		9D0F5E742AECAEC10025E05B /* QRScannerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F5E732AECAEC10025E05B /* QRScannerDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -22,7 +21,6 @@
 		9D0F5E632AEC9B150025E05B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9D0F5E652AEC9B160025E05B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D0F5E682AEC9B160025E05B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		9D0F5E6F2AEC9B450025E05B /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		9D0F5E712AECA8550025E05B /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		9D0F5E732AECAEC10025E05B /* QRScannerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -59,7 +57,6 @@
 			children = (
 				9D0F5E612AEC9B150025E05B /* QRScannerApp.swift */,
 				9D0F5E632AEC9B150025E05B /* ContentView.swift */,
-				9D0F5E6F2AEC9B450025E05B /* ScannerView.swift */,
 				9D0F5E712AECA8550025E05B /* CameraView.swift */,
 				9D0F5E732AECAEC10025E05B /* QRScannerDelegate.swift */,
 				9D0F5E652AEC9B160025E05B /* Assets.xcassets */,
@@ -146,7 +143,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D0F5E702AEC9B450025E05B /* ScannerView.swift in Sources */,
 				9D0F5E642AEC9B150025E05B /* ContentView.swift in Sources */,
 				9D0F5E742AECAEC10025E05B /* QRScannerDelegate.swift in Sources */,
 				9D0F5E622AEC9B150025E05B /* QRScannerApp.swift in Sources */,
@@ -209,7 +205,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -266,7 +262,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -292,6 +288,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -321,6 +318,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
