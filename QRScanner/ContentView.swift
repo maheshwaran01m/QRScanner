@@ -34,7 +34,13 @@ struct ContentView: View {
     }
     .padding(.horizontal, 10)
     .frame(maxWidth: .infinity, alignment: .topLeading)
-    .alert(errorMessage ?? "Error", isPresented: errorBinding) {
+    .alert("Settings", isPresented: errorBinding) {
+      Button("Cancel", action: {})
+      
+      if let url = URL(string: UIApplication.openSettingsURLString) {
+        Link("Open", destination: url)
+      }
+    } message: {
       Text(errorMessage ?? "")
     }
     .onAppear {
@@ -88,8 +94,8 @@ struct ContentView: View {
       ZStack {
         CameraView(frameSize: .init(width: proxy.size.width/2,
                                     height: proxy.size.width/2), session: $session)
-          .clipShape(RoundedRectangle(cornerRadius: 8))
-
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        
         
         ForEach(0...3, id: \.self) { index in
           RoundedRectangle(cornerRadius: 8, style: .circular)
@@ -97,7 +103,7 @@ struct ContentView: View {
             .stroke(Color.primary,
                     style: .init(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
             .rotationEffect(.init(degrees: Double(index) * 90))
-            
+          
         }
       }
       .frame(width: proxy.size.width/2, height: proxy.size.width/2)
@@ -175,7 +181,7 @@ struct ContentView: View {
       session.startRunning()
     }
   }
-
+  
   // MARK: - Error
   
   private var errorBinding: Binding<Bool> {
