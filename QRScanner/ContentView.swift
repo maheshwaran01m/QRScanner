@@ -23,10 +23,14 @@ struct ContentView: View {
   
   private var mainView: some View {
     GeometryReader { proxy in
-      roundRectangleView(proxy)
-        .background {
-          scannerView(proxy)
-        }
+      mainView(proxy)
+    }
+  }
+  
+  private func mainView(_ proxy: GeometryProxy) -> some View {
+    roundRectangleView(proxy)
+    .background {
+      scannerView(proxy)
     }
     .alert("Camera Disabled", isPresented: $viewModel.showCameraAlert) {
       Button("Cancel") {}
