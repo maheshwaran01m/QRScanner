@@ -1,5 +1,5 @@
 //
-//  CameraView.swift
+//  ScannerInputView.swift
 //  QRScanner
 //
 //  Created by MAHESHWARAN on 28/10/23.
@@ -8,14 +8,13 @@
 import SwiftUI
 import AVKit
 
-struct CameraView: UIViewRepresentable {
+struct ScannerInputView: UIViewRepresentable {
   
   var frameSize: CGSize
+  var cameraLayer: AVCaptureVideoPreviewLayer
   
-  @Binding var session: AVCaptureSession
-  
-  init(frameSize: CGSize, session: Binding<AVCaptureSession>) {
-    _session = session
+  init(frameSize: CGSize, cameraLayer: AVCaptureVideoPreviewLayer) {
+    self.cameraLayer = cameraLayer
     self.frameSize = frameSize
   }
   
@@ -23,9 +22,9 @@ struct CameraView: UIViewRepresentable {
     let view = UIViewType(frame: .init(origin: .zero, size: frameSize))
     view.backgroundColor = .clear
     
-    let cameraLayer = AVCaptureVideoPreviewLayer(session: session)
-    cameraLayer.frame = .init(origin: .zero, size: frameSize)
+    cameraLayer.frame = view.layer.bounds
     cameraLayer.videoGravity = .resizeAspectFill
+    cameraLayer.backgroundColor = UIColor.black.cgColor
     cameraLayer.masksToBounds = true
     view.layer.addSublayer(cameraLayer)
     
