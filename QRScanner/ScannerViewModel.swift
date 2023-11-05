@@ -61,6 +61,7 @@ class ScannerViewModel: NSObject, ObservableObject {
     DispatchQueue.global(qos: .background).async { [weak self] in
       self?.session?.startRunning()
     }
+    scannedCode = nil
   }
   
   func checkAccessForCamera() {

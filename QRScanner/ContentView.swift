@@ -12,7 +12,6 @@ struct ContentView: View {
   
   @Environment(\.dismiss) private var dismiss
   @StateObject private var viewModel = ScannerViewModel()
-  @State private var selectedCode: String?
   
   var body: some View {
     mainView
