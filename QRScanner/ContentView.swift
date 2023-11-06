@@ -135,6 +135,9 @@ extension ContentView {
       Image(systemName: "qrcode.viewfinder")
         .font(.largeTitle)
         .foregroundStyle(Color.primary)
+        .padding()
+        .background(Color.secondary)
+        .clipShape(Circle())
     }
   }
 }
