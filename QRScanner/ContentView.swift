@@ -14,19 +14,13 @@ struct ContentView: View {
   @StateObject private var viewModel = ScannerViewModel()
   
   var body: some View {
-    GeometryReader { proxy in
-      mainView(proxy)
+    ZStack {
+      scannerView
+      roundRectangleView
     }
-  }
-  
-  private func mainView(_ proxy: GeometryProxy) -> some View {
-    roundRectangleView(proxy)
-      .overlay(alignment: .top, content: headerView)
-      .overlay(alignment: .bottom, content: scanButton)
-      .onAppear(perform: viewModel.checkAccessForCamera)
-      .background {
-        scannerView(proxy)
-      }
+    .overlay(alignment: .top, content: headerView)
+    .overlay(alignment: .bottom, content: scanButton)
+    .onAppear(perform: viewModel.checkAccessForCamera)
     .alert("Camera Disabled", isPresented: $viewModel.showCameraAlert) {
       Button("Cancel") {}
       if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -42,7 +36,20 @@ struct ContentView: View {
       .accessibilityElement(children: .contain)
   }
   
-  private func roundRectangleView(_ proxy: GeometryProxy) -> some View {
+  private var scannerView: some View {
+    GeometryReader { proxy in
+      if let cameraLayer = viewModel.previewLayer {
+        ScannerInputView(
+          frameSize: .init(width: proxy.size.width, height: proxy.size.height),
+          cameraLayer: cameraLayer)
+      } else {
+        Color.blue.opacity(0.3)
+      }
+    }
+    .ignoresSafeArea()
+  }
+  
+  private var roundRectangleView: some View {
     ZStack {
       ForEach(0...3, id: \.self) { index in
         RoundedRectangle(cornerRadius: 16, style: .circular)
@@ -53,19 +60,16 @@ struct ContentView: View {
       }
     }
     .frame(width: 320, height: 320)
-    .preference(key: FramePreferenceKey.self, value: proxy.frame(in: .global))
-    .onPreferenceChange(FramePreferenceKey.self) {
-      viewModel.updateOutputRectOfInterest($0)
-    }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(content: rectangleFrameView)
   }
   
-  @ViewBuilder
-  private func scannerView(_ proxy: GeometryProxy) -> some View {
-    if let cameraLayer = viewModel.previewLayer {
-      ScannerInputView(
-        frameSize: .init(width: proxy.size.width, height: proxy.size.height),
-        cameraLayer: cameraLayer)
+  private func rectangleFrameView() -> some View {
+    GeometryReader { proxy in
+      Color.clear
+        .onAppear {
+          viewModel.updateOutputRectOfInterest(proxy.frame(in: .global))
+          debugPrint(viewModel.output.rectOfInterest)
+        }
     }
   }
 }
