@@ -88,10 +88,9 @@ class ScannerViewModel: NSObject, ObservableObject {
     session?.stopRunning()
   }
   
-  func updateOutputRectOfInterest(_ size: CGSize) {
+  func updateOutputRectOfInterest(_ rect: CGRect) {
     guard let previewLayer else { return }
-    output.rectOfInterest = previewLayer.metadataOutputRectConverted(
-      fromLayerRect: .init(origin: .zero, size: size))
+    output.rectOfInterest = previewLayer.metadataOutputRectConverted(fromLayerRect: rect)
   }
 }
 

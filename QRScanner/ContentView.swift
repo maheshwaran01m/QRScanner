@@ -57,8 +57,8 @@ struct ContentView: View {
       }
     }
     .frame(width: 320, height: 320)
-    .preference(key: SizeKey.self, value: proxy.size)
-    .onPreferenceChange(SizeKey.self) {
+    .preference(key: FramePreferenceKey.self, value: proxy.frame(in: .global))
+    .onPreferenceChange(FramePreferenceKey.self) {
       viewModel.updateOutputRectOfInterest($0)
     }
     .ignoresSafeArea(.all)
@@ -146,10 +146,10 @@ extension ContentView {
 
 extension ContentView {
   
-  struct SizeKey: PreferenceKey {
-    static var defaultValue = CGSize.zero
+  struct FramePreferenceKey: PreferenceKey {
+    static var defaultValue = CGRect.zero
     
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
       value = nextValue()
     }
   }
