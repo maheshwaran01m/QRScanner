@@ -76,7 +76,6 @@ struct ContentView: View {
       }
     }
   }
-  
 }
 
 extension ContentView {
