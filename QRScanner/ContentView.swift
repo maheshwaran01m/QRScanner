@@ -14,13 +14,6 @@ struct ContentView: View {
   @StateObject private var viewModel = ScannerViewModel()
   
   var body: some View {
-    mainView
-      .overlay(alignment: .topLeading, content: headerView)
-      .safeAreaInset(edge: .bottom, content: scanButton)
-      .onAppear(perform: viewModel.checkAccessForCamera)
-  }
-  
-  private var mainView: some View {
     GeometryReader { proxy in
       mainView(proxy)
     }
@@ -28,9 +21,12 @@ struct ContentView: View {
   
   private func mainView(_ proxy: GeometryProxy) -> some View {
     roundRectangleView(proxy)
-    .background {
-      scannerView(proxy)
-    }
+      .overlay(alignment: .top, content: headerView)
+      .overlay(alignment: .bottom, content: scanButton)
+      .onAppear(perform: viewModel.checkAccessForCamera)
+      .background {
+        scannerView(proxy)
+      }
     .alert("Camera Disabled", isPresented: $viewModel.showCameraAlert) {
       Button("Cancel") {}
       if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -61,19 +57,15 @@ struct ContentView: View {
     .onPreferenceChange(FramePreferenceKey.self) {
       viewModel.updateOutputRectOfInterest($0)
     }
-    .ignoresSafeArea(.all)
     .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
   
-  
+  @ViewBuilder
   private func scannerView(_ proxy: GeometryProxy) -> some View {
-    ZStack {
-      if let cameraLayer = viewModel.previewLayer {
-        ScannerInputView(
-          frameSize: .init(width: proxy.size.width, height: proxy.size.height),
-          cameraLayer: cameraLayer)
-        .background(Color.gray)
-      }
+    if let cameraLayer = viewModel.previewLayer {
+      ScannerInputView(
+        frameSize: .init(width: proxy.size.width, height: proxy.size.height),
+        cameraLayer: cameraLayer)
     }
   }
 }
@@ -87,9 +79,8 @@ extension ContentView {
       
     }
     .frame(maxWidth: .infinity)
-    .overlay(alignment: .topLeading, content: cancelButton)
     .padding(.horizontal, 10)
-    .frame(maxWidth: .infinity, alignment: .leading)
+    .overlay(alignment: .topLeading, content: cancelButton)
     .accessibilityElement(children: .contain)
   }
   

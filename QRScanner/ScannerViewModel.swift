@@ -44,6 +44,7 @@ class ScannerViewModel: NSObject, ObservableObject {
         .code93, .code128, .code39, .aztec,
         .itf14, .dataMatrix
       ]
+      output.rectOfInterest = .zero
       output.setMetadataObjectsDelegate(self, queue: .main)
       output.connection(with: .video)?.preferredVideoStabilizationMode = .standard
       session.commitConfiguration()
