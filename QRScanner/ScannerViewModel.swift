@@ -95,6 +95,25 @@ class ScannerViewModel: NSObject, ObservableObject {
   }
 }
 
+extension ScannerViewModel {
+  
+  func updateOrientation() {
+    previewLayer?.connection?.videoOrientation = videoOrientation
+  }
+  
+  var videoOrientation: AVCaptureVideoOrientation {
+    let type = UIDevice.current.orientation
+    switch type {
+    case .portrait: return .portrait
+    case .portraitUpsideDown: return .portraitUpsideDown
+    case .landscapeLeft: return .landscapeLeft
+    case .landscapeRight: return .landscapeRight
+    case .unknown, .faceUp, .faceDown: return .portrait
+    @unknown default: return .portrait
+    }
+  }
+}
+
 extension ScannerViewModel: AVCaptureMetadataOutputObjectsDelegate {
   
   func metadataOutput(_ output: AVCaptureMetadataOutput,
