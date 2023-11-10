@@ -34,10 +34,6 @@ struct ContentView: View {
         viewModel.stopRunning()
       }
       .accessibilityElement(children: .contain)
-      .onReceive(NotificationCenter.default.publisher(
-        for: UIDevice.orientationDidChangeNotification)) { value in
-          viewModel.updateOrientation()
-      }
   }
   
   private var scannerView: some View {
