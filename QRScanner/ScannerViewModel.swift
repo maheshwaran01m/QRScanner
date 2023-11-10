@@ -12,7 +12,7 @@ class ScannerViewModel: NSObject, ObservableObject {
   
   var session: AVCaptureSession?
   var output = AVCaptureMetadataOutput()
-  var previewLayer: AVCaptureVideoPreviewLayer?
+  @Published var previewLayer: AVCaptureVideoPreviewLayer?
   
   @Published var scannedCode: String?
   @Published var showCameraAlert = false
@@ -95,18 +95,6 @@ class ScannerViewModel: NSObject, ObservableObject {
   }
 }
 
-extension ScannerViewModel {
-  
-  func updateOrientation() {
-    guard let previewLayer else { return }
-    let orientation = UIApplication.shared.connectedScenes
-      .compactMap { $0 as? UIWindowScene }
-      .first?.interfaceOrientation ?? .portrait
-    
-    previewLayer.connection?.videoOrientation = orientation.videoOrientation
-  }
-}
-
 extension ScannerViewModel: AVCaptureMetadataOutputObjectsDelegate {
   
   func metadataOutput(_ output: AVCaptureMetadataOutput,
@@ -119,19 +107,5 @@ extension ScannerViewModel: AVCaptureMetadataOutputObjectsDelegate {
     AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
     scannedCode = readableObject.stringValue
     stopRunning()
-  }
-}
-
-extension UIInterfaceOrientation {
-  
-  var videoOrientation: AVCaptureVideoOrientation {
-    switch self {
-    case .landscapeLeft: return .landscapeLeft
-    case .landscapeRight: return .landscapeRight
-    case .portrait: return .portrait
-    case .portraitUpsideDown: return .portraitUpsideDown
-    case .unknown: return .portrait
-    @unknown default: return .portrait
-    }
   }
 }
