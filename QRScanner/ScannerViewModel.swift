@@ -12,7 +12,7 @@ class ScannerViewModel: NSObject, ObservableObject {
   
   var session: AVCaptureSession?
   var output = AVCaptureMetadataOutput()
-  @Published var previewLayer: AVCaptureVideoPreviewLayer?
+  var previewLayer: AVCaptureVideoPreviewLayer?
   
   @Published var scannedCode: String?
   @Published var showCameraAlert = false
@@ -44,7 +44,6 @@ class ScannerViewModel: NSObject, ObservableObject {
         .code93, .code128, .code39, .aztec,
         .itf14, .dataMatrix
       ]
-      output.rectOfInterest = .zero
       output.setMetadataObjectsDelegate(self, queue: .main)
       output.connection(with: .video)?.preferredVideoStabilizationMode = .standard
       session.commitConfiguration()
@@ -87,11 +86,6 @@ class ScannerViewModel: NSObject, ObservableObject {
   func stopRunning() {
     guard session?.isRunning ?? false else { return }
     session?.stopRunning()
-  }
-  
-  func updateOutputRectOfInterest(_ rect: CGRect) {
-    guard let previewLayer else { return }
-    output.rectOfInterest = previewLayer.metadataOutputRectConverted(fromLayerRect: rect)
   }
 }
 
