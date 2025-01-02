@@ -10,8 +10,13 @@ import AVKit
 
 struct ContentView: View {
   
-  @Environment(\.dismiss) private var dismiss
+  // @Environment(\.dismiss) private var dismiss
   @StateObject private var viewModel = ScannerViewModel()
+  @Binding var selectedCode: String?
+  
+  init(for selectedCode: Binding<String?> = .constant(nil)) {
+    _selectedCode = selectedCode
+  }
   
   var body: some View {
     ZStack {
@@ -34,6 +39,11 @@ struct ContentView: View {
         viewModel.stopRunning()
       }
       .accessibilityElement(children: .contain)
+      .onChange(of: viewModel.scannedCode) {
+        guard let code = $0 else { return }
+        selectedCode = code
+        // dismiss()
+      }
   }
   
   private var scannerView: some View {
@@ -43,7 +53,7 @@ struct ContentView: View {
           frameSize: .init(width: proxy.size.width, height: proxy.size.height),
           cameraLayer: cameraLayer)
       } else {
-        Color.blue.opacity(0.3)
+        Color.gray.opacity(0.3)
       }
     }
     .ignoresSafeArea()
@@ -60,17 +70,6 @@ struct ContentView: View {
       }
     }
     .frame(width: 320, height: 320)
-    .background(content: rectangleFrameView)
-  }
-  
-  private func rectangleFrameView() -> some View {
-    GeometryReader { proxy in
-      Color.clear
-        .onAppear {
-          viewModel.updateOutputRectOfInterest(proxy.frame(in: .global))
-          debugPrint(viewModel.output.rectOfInterest)
-        }
-    }
   }
 }
 
@@ -122,7 +121,7 @@ extension ContentView {
   
   private func cancelButton() -> some View {
     Button {
-      dismiss()
+      // dismiss()
     } label: {
       Image(systemName: "chevron.left")
     }

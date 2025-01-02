@@ -14,16 +14,13 @@ struct ScannerInputView: UIViewControllerRepresentable {
   var cameraLayer: AVCaptureVideoPreviewLayer
   
   func makeUIViewController(context: Context) -> UIViewController {
-    Coordinator(frameSize, cameraLayer: cameraLayer)
+    CameraViewController(frameSize, cameraLayer: cameraLayer)
   }
   
   func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
   
-  func makeCoordinator() -> Coordinator {
-    .init(frameSize, cameraLayer: cameraLayer)
-  }
-  
-  class Coordinator: UIViewController {
+  private class CameraViewController: UIViewController {
+    
     var frameSize: CGSize
     var cameraLayer: AVCaptureVideoPreviewLayer
     
@@ -39,6 +36,11 @@ struct ScannerInputView: UIViewControllerRepresentable {
     
     override func viewDidLoad() {
       super.viewDidLoad()
+      setupCameraView()
+      configurePinchGesture()
+    }
+    
+    private func setupCameraView() {
       cameraLayer.frame = view.bounds
       cameraLayer.videoGravity = .resizeAspectFill
       cameraLayer.backgroundColor = UIColor.black.cgColor
@@ -65,6 +67,28 @@ struct ScannerInputView: UIViewControllerRepresentable {
         .first?.interfaceOrientation ?? .portrait
       
       cameraLayer.connection?.videoOrientation = orientation.videoOrientation
+    }
+    
+    // MARK: - Pinch Gesture
+    
+    private func configurePinchGesture() {
+      let pinchGesture = UIPinchGestureRecognizer(target: self,
+                                                  action: #selector(handlePinch(_:)))
+      view.addGestureRecognizer(pinchGesture)
+    }
+    
+    @objc func handlePinch(_ gesture: UIPinchGestureRecognizer) {
+      guard let device = AVCaptureDevice.default(for: .video) else { return }
+      do {
+        try device.lockForConfiguration()
+        let maxZoomFactor = device.activeFormat.videoMaxZoomFactor
+        let pinchVelocityDividerFactor: CGFloat = 10.0
+        let desiredZoomFactor = device.videoZoomFactor + atan2(gesture.velocity, pinchVelocityDividerFactor)
+        device.videoZoomFactor = max(1.0, min(desiredZoomFactor, maxZoomFactor))
+        device.unlockForConfiguration()
+      } catch {
+        debugPrint("Error locking configuration while scanning.")
+      }
     }
   }
 }
